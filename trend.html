@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 今日のXトレンド（擬似）</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; }
+    h1 { font-size: 24px; color: #222; }
+    li { font-size: 18px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+  <h1>📊 今日のXトレンド（擬似）</h1>
+  <ul id="trendList"><li>読み込み中...</li></ul>
+
+  <script>
+    fetch("https://script.google.com/macros/s/AKfycbx_65B_MZHXOEeVYet_OeV0-gqgGXpFMiZE5cwl1S-huWb_SwG7YKaUeiBmIbT7wDA/exec")
+      .then(res => res.json())
+      .then(data => {
+        const ul = document.getElementById("trendList");
+        ul.innerHTML = "";
+        data.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          ul.appendChild(li);
+        });
+      })
+      .catch(err => {
+        document.getElementById("trendList").innerHTML = "<li>読み込み失敗しました</li>";
+      });
+  </script>
+</body>
+</html>
