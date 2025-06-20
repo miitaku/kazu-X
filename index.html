@@ -4,30 +4,119 @@
   <meta charset="UTF-8">
   <title>📊 今日のXトレンド（擬似）</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 40px; }
-    h1 { font-size: 24px; color: #222; }
-    li { font-size: 18px; margin: 10px 0; }
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 40px;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-size: 24px;
+      color: #222;
+      margin-bottom: 20px;
+    }
+    .category-block {
+      margin-bottom: 40px;
+    }
+    .category-title {
+      font-weight: bold;
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    #generatedText {
+      margin-top: 30px;
+      font-size: 18px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: pre-wrap;
+    }
+    #copyBtn {
+      margin-top: 15px;
+      padding: 8px 16px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <h1>📊 今日のXトレンド（擬似）</h1>
-  <ul id="trendList"><li>読み込み中...</li></ul>
+  <div id="trendBlocks">読み込み中...</div>
+
+  <div id="generatedText"></div>
+  <button id="copyBtn" style="display:none">📋 コピーする</button>
 
   <script>
+    const exampleTemplates = {
+      "#ChatGPT": "ChatGPTを使って副業や働き方が根本から変わりました。#ChatGPT",
+      "#BTC": "BTCを3年前に買ってたら今は資産が倍。あのときの判断、間違ってなかった。#BTC",
+      "#人生逆転": "もう終わりだと思った時期から、逆に全てが始まりました。#人生逆転"
+    };
+
     fetch("https://script.google.com/macros/s/AKfycbx_65B_MZHXOEeVYet_OeV0-gqgGXpFMiZE5cwl1S-huWb_SwG7YKaUeiBmIbT7wDA/exec")
       .then(res => res.json())
       .then(data => {
-        const ul = document.getElementById("trendList");
-        ul.innerHTML = "";
+        const trendBlocks = document.getElementById("trendBlocks");
+        trendBlocks.innerHTML = "";
+
+        const grouped = {};
         data.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          ul.appendChild(li);
+          const [keyword, category] = item.split("｜");
+          if (!grouped[category]) grouped[category] = [];
+          grouped[category].push(keyword);
         });
+
+        for (const category in grouped) {
+          const block = document.createElement("div");
+          block.className = "category-block";
+
+          const title = document.createElement("div");
+          title.className = "category-title";
+          title.textContent = category;
+          block.appendChild(title);
+
+          const ul = document.createElement("ul");
+          grouped[category].forEach(keyword => {
+            const li = document.createElement("li");
+            li.innerHTML = `${keyword} <button onclick=\"generateText('${keyword}')\">✏️ 作成</button>`;
+            ul.appendChild(li);
+          });
+          block.appendChild(ul);
+          trendBlocks.appendChild(block);
+        }
       })
-      .catch(err => {
-        document.getElementById("trendList").innerHTML = "<li>読み込み失敗しました</li>";
+      .catch(() => {
+        document.getElementById("trendBlocks").innerHTML = "読み込み失敗しました";
       });
+
+    function generateText(keyword) {
+      const text = exampleTemplates[keyword] || `${keyword} に関する投稿文はまだ準備中です。`;
+      const output = document.getElementById("generatedText");
+      output.textContent = text;
+      document.getElementById("copyBtn").style.display = "inline-block";
+    }
+
+    document.getElementById("copyBtn").addEventListener("click", () => {
+      const content = document.getElementById("generatedText").textContent;
+      navigator.clipboard.writeText(content);
+      alert("コピーしました！");
+    });
   </script>
 </body>
 </html>
