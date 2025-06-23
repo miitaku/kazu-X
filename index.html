@@ -4,205 +4,289 @@
 <meta charset="UTF-8">
 <title>kazuX | 本日のキーワード</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    background: #f0f2f5;
-    color: #333;
-    margin: 0;
-    padding: 0;
-  }
-  header {
-    padding: 40px 0;
-    text-align: center;
-    background: linear-gradient(135deg, #007aff, #00c3ff);
-    color: white;
-  }
-  header h1 {
-    font-size: 48px;
-    letter-spacing: 2px;
-    margin: 0;
-  }
-  #usage-guide {
-    text-align: center;
-    padding: 30px;
-  }
-  #toggle-guide-btn {
-    padding: 12px 24px;
-    background: #007aff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
-  }
-  #toggle-guide-btn:hover {
-    background: #005bb5;
-  }
-  #guide-content {
-    background: #e9f5ff;
-    padding: 20px;
-    border-radius: 8px;
-    margin: 20px auto;
-    max-width: 600px;
-    text-align: left;
-    display: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  }
-  #keywords {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 20px;
-  }
-  .keyword-box {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 300px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    text-align: center;
-    transition: transform 0.2s ease;
-  }
-  .keyword-box:hover {
-    transform: scale(1.03);
-  }
-  .keyword-box h3 {
-    color: #007aff;
-    margin: 0 0 10px;
-    font-size: 20px;
-  }
-  .keyword-box button {
-    padding: 10px 18px;
-    background: #007aff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-size: 14px;
-  }
-  .keyword-box button:hover {
-    background: #005bb5;
-  }
-  .template-text {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
-    margin-top: 10px;
-    color: #333;
-    text-align: left;
-    white-space: pre-wrap;
-  }
-  .copy-btn {
-    padding: 10px 18px !important;
-    background: #ff6600 !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 6px !important;
-    cursor: pointer !important;
-    margin-top: 10px !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    transition: background 0.3s ease !important;
-  }
-  .copy-btn:hover {
-    background: #e65c00 !important;
-  }
+  body {
+    font-family: 'Segoe UI', 'Arial', sans-serif; /* フォントを少し変更 */
+    background: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px; /* 左右の余白を追加 */
+    box-sizing: border-box; /* paddingをwidth/heightに含める */
+  }
+  header {
+    padding: 40px 20px; /* 左右のパディングを調整 */
+    text-align: center;
+    background: linear-gradient(135deg, #0a0a2a, #2a2a5a); /* ヘッダーの背景色をより深い色に */
+    color: white;
+    margin: -20px -20px 30px; /* bodyのpaddingを相殺し、下部に余白 */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  header h1 {
+    font-size: 56px; /* H1をさらに大きく */
+    letter-spacing: 3px;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* 文字に影をつけて強調 */
+  }
+  #usage-guide {
+    text-align: center;
+    padding: 0 0 30px; /* 上部のパディングをなくし、下部の余白を調整 */
+  }
+  #toggle-guide-btn {
+    padding: 15px 30px; /* ボタンを大きく */
+    background: #333; /* 黒ベースに変更 */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px; /* 文字を大きく */
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: bold; /* 文字を太く */
+  }
+  #toggle-guide-btn:hover {
+    background: #555; /* ホバー時の色を少し明るく */
+    transform: translateY(-2px); /* 少し浮き上がる効果 */
+  }
+  #guide-content {
+    background: #ffffff; /* 説明文の背景を白に */
+    padding: 25px; /* パディングを増やす */
+    border-radius: 10px; /* 角を少し丸く */
+    margin: 25px auto; /* 上下のマージンを調整、中央寄せ */
+    max-width: 700px; /* 説明文の最大幅を広げる */
+    text-align: left;
+    display: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15); /* 影を強調 */
+    line-height: 1.8; /* 行の高さを調整して読みやすく */
+  }
+  #guide-content h3 {
+    color: #007aff; /* 説明文の見出し色 */
+    margin-top: 0;
+    font-size: 22px;
+    border-bottom: 2px solid #eee; /* 下線を追加 */
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  #guide-content ol {
+    padding-left: 25px; /* リストのインデントを調整 */
+  }
+  #guide-content li {
+    margin-bottom: 10px; /* リスト項目の間隔 */
+  }
+
+  #keywords {
+    display: flex;
+    flex-wrap: wrap; /* 折り返しを有効に */
+    justify-content: center; /* 中央寄せ */
+    gap: 30px; /* カード間のスペースを広げる */
+    padding: 20px;
+  }
+  .keyword-box {
+    background: white;
+    padding: 30px; /* パディングを大きく */
+    border-radius: 15px; /* 角をさらに丸く */
+    width: 350px; /* 幅を大きく */
+    max-width: 90%; /* スマホでの見切れ防止 */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15); /* 影を強く、立体的に */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; /* Flexboxで内容を縦に配置 */
+    flex-direction: column;
+    justify-content: space-between; /* 内容を上下に均等配置 */
+    min-height: 250px; /* 最小高さを設定して見た目を揃える */
+  }
+  .keyword-box:hover {
+    transform: translateY(-8px); /* ホバー時の浮き上がりを大きく */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25); /* ホバー時の影をさらに強調 */
+  }
+  .keyword-box h3 {
+    color: #333; /* キーワードの文字色を濃いグレーに */
+    margin: 0 0 20px; /* 下のマージンを増やす */
+    font-size: 28px; /* キーワードの文字を大きく */
+    font-weight: 800; /* 極太に */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* 文字に影をつけて強調 */
+    line-height: 1.3;
+  }
+  .keyword-box button {
+    padding: 12px 22px; /* ボタンを大きく */
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px; /* 上のマージンを増やす */
+    font-size: 16px; /* 文字を大きく */
+    transition: background 0.3s ease;
+  }
+  .keyword-box button:hover {
+    background: #005bb5;
+  }
+  .template-text {
+    background: #f0f8ff; /* 投稿文の背景を淡い水色に */
+    padding: 18px; /* パディングを大きく */
+    border-radius: 10px; /* 角を丸く */
+    margin-top: 20px; /* 上のマージンを増やす */
+    color: #222;
+    text-align: left;
+    white-space: pre-wrap;
+    font-size: 16px; /* 投稿文の文字サイズを調整 */
+    line-height: 1.7; /* 行の高さを調整 */
+    border: 1px solid #e0e0e0; /* わずかなボーダー */
+  }
+  .copy-btn {
+    padding: 12px 22px !important;
+    background: #ff4500 !important; /* オレンジ系の強調色 */
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    margin-top: 15px !important; /* 上のマージンを調整 */
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: background 0.3s ease !important;
+    align-self: center; /* 中央揃え */
+  }
+  .copy-btn:hover {
+    background: #cc3700 !important; /* ホバー時の色を濃く */
+  }
+
+  /* レスポンシブデザイン */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 40px;
+    }
+    #toggle-guide-btn {
+      font-size: 16px;
+      padding: 10px 20px;
+    }
+    #guide-content {
+      margin: 15px 10px;
+      padding: 15px;
+    }
+    .keyword-box {
+      width: 95%; /* スマホで横幅いっぱいに */
+      padding: 25px;
+    }
+    .keyword-box h3 {
+      font-size: 24px;
+    }
+    .template-text {
+      font-size: 15px;
+      padding: 15px;
+    }
+    .copy-btn, .keyword-box button {
+      font-size: 15px !important;
+      padding: 10px 18px !important;
+    }
+  }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>kazuX</h1>
+  <h1>kazuX</h1>
 </header>
 
 <div id="usage-guide">
-  <button id="toggle-guide-btn">kazuX の使用方法はこちら</button>
-  <div id="guide-content">
-    <h3>kazuX の使い方：</h3>
-    <ol>
-      <li>「本日のキーワード」として、自動で3つのキーワードが表示されます。</li>
-      <li>各キーワードの「投稿文を表示」ボタンを押してください。</li>
-      <li>投稿用テンプレートが表示されます。</li>
-      <li>「コピーする」ボタンで投稿文をコピーできます。</li>
-    </ol>
-  </div>
+  <button id="toggle-guide-btn">kazuX の使用方法はこちら</button>
+  <div id="guide-content">
+    <h3>kazuX の使い方：</h3>
+    <ol>
+      <li>「本日のキーワード」として、自動で3つのキーワードが表示されます。</li>
+      <li>各キーワードの「投稿文を表示」ボタンを押してください。</li>
+      <li>投稿用テンプレートが表示されます。</li>
+      <li>「コピーする」ボタンで投稿文をコピーできます。</li>
+    </ol>
+  </div>
 </div>
 
 <div id="keywords">読み込み中...</div>
 
 <script>
-  const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
 
-  async function fetchKeywords() {
-    try {
-      const res = await fetch(API_URL);
-      if (!res.ok) throw new Error(`HTTP Error! status: ${res.status}`);
-      const data = await res.json();
-      const pickedItems = data.sort(() => 0.5 - Math.random()).slice(0, 3);
-      displayKeywords(pickedItems);
-    } catch (e) {
-      document.getElementById('keywords').textContent = '読み込みに失敗しました。';
-      console.error(e);
-    }
-  }
+  async function fetchKeywords() {
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(`HTTP Error! status: ${res.status}, response: ${errorText}`);
+      }
+      const data = await res.json();
 
-  function displayKeywords(pickedItems) {
-    const container = document.getElementById('keywords');
-    container.innerHTML = '';
-    pickedItems.forEach(item => {
-      const box = document.createElement('div');
-      box.className = 'keyword-box';
-      box.innerHTML = `<h3>${item.キーワード}</h3>`;
+      if (!Array.isArray(data) || data.length === 0 || !data[0].hasOwnProperty('キーワード')) {
+        throw new Error("APIレスポンスの形式が不正です。'キーワード'プロパティが見つかりません。");
+      }
 
-      const btn = document.createElement('button');
-      btn.textContent = '投稿文を表示';
-      btn.onclick = () => {
-        let template = box.querySelector('.template-text');
-        if (!template) {
-          template = document.createElement('div');
-          template.className = 'template-text';
-          box.appendChild(template);
-        }
-        template.textContent = item.投稿文;
+      const shuffledData = data.sort(() => 0.5 - Math.random());
+      const pickedItems = shuffledData.slice(0, 3); // 3件だけ選ぶ
 
-        let copyButton = box.querySelector('.copy-btn');
-        if (!copyButton) {
-          copyButton = document.createElement('button');
-          copyButton.textContent = 'コピーする';
-          copyButton.className = 'copy-btn';
-          box.appendChild(copyButton);
+      displayKeywords(pickedItems);
+    } catch (e) {
+      const keywordsContainer = document.getElementById('keywords');
+      keywordsContainer.innerHTML = `<p style="color: red; text-align: center; font-size: 1.1em;">キーワードの読み込みに失敗しました。<br>エラー: ${e.message}</p>`;
+      console.error("Error fetching keywords:", e);
+    }
+  }
 
-          copyButton.onclick = async () => {
-            try {
-              await navigator.clipboard.writeText(item.投稿文);
-              copyButton.textContent = 'コピーしました！';
-              setTimeout(() => copyButton.textContent = 'コピーする', 2000);
-            } catch (e) {
-              alert('コピーに失敗しました');
-            }
-          };
-        }
-      };
-      box.appendChild(btn);
-      container.appendChild(box);
-    });
-  }
+  function displayKeywords(pickedItems) {
+    const container = document.getElementById('keywords');
+    container.innerHTML = '';
+    pickedItems.forEach(item => {
+      const box = document.createElement('div');
+      box.className = 'keyword-box';
+      box.innerHTML = `<h3>${item.キーワード}</h3>`;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const toggleGuideBtn = document.getElementById('toggle-guide-btn');
-    const guideContent = document.getElementById('guide-content');
+      const btn = document.createElement('button');
+      btn.textContent = '投稿文を表示';
+      btn.onclick = () => {
+        let template = box.querySelector('.template-text');
+        if (!template) {
+          template = document.createElement('div');
+          template.className = 'template-text';
+          box.appendChild(template);
+        }
+        template.textContent = item.投稿文;
 
-    toggleGuideBtn.addEventListener('click', () => {
-      guideContent.style.display = (guideContent.style.display === '' || guideContent.style.display === 'none')
-        ? 'block'
-        : 'none';
-    });
+        let copyButton = box.querySelector('.copy-btn');
+        if (!copyButton) {
+          copyButton = document.createElement('button');
+          copyButton.textContent = 'コピーする';
+          copyButton.className = 'copy-btn';
+          box.appendChild(copyButton);
 
-    fetchKeywords();
-  });
+          copyButton.onclick = async () => {
+            try {
+              await navigator.clipboard.writeText(item.投稿文);
+              copyButton.textContent = 'コピーしました！';
+              setTimeout(() => copyButton.textContent = 'コピーする', 2000);
+            } catch (e) {
+              alert('コピーに失敗しました');
+            }
+          };
+        }
+      };
+      box.appendChild(btn);
+      container.appendChild(box);
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggleGuideBtn = document.getElementById('toggle-guide-btn');
+    const guideContent = document.getElementById('guide-content');
+
+    toggleGuideBtn.addEventListener('click', () => {
+      guideContent.style.display = (guideContent.style.display === '' || guideContent.style.display === 'none')
+        ? 'block'
+        : 'none';
+      
+      // ボタンのテキストを切り替える
+      if (guideContent.style.display === 'block') {
+        toggleGuideBtn.textContent = '使い方を隠す';
+      } else {
+        toggleGuideBtn.textContent = 'kazuX の使用方法はこちら';
+      }
+    });
+
+    fetchKeywords();
+  });
 </script>
 
 </body>
