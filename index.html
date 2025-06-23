@@ -28,7 +28,7 @@
   }
   #toggle-guide-btn {
     padding: 14px 28px;
-    background: #333; /* 黒ベース */
+    background: #222; /* 黒ベース */
     color: white;
     border: none;
     border-radius: 8px;
@@ -58,33 +58,31 @@
   }
   .keyword-box {
     background: white;
-    padding: 28px;
+    padding: 32px;
     border-radius: 16px;
     width: 320px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* 影を強調 */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     text-align: center;
     transition: transform 0.2s ease;
   }
   .keyword-box:hover {
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
   .keyword-box h3 {
     color: #007aff;
     margin: 0 0 14px;
     font-size: 28px;
     font-weight: bold;
-    letter-spacing: 1px;
   }
   .keyword-box button {
     padding: 12px 24px;
     background: #007aff;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-top: 14px;
+    margin-top: 12px;
     font-size: 16px;
-    transition: background 0.3s ease;
   }
   .keyword-box button:hover {
     background: #005bb5;
@@ -93,27 +91,27 @@
     background: #f8f9fa;
     padding: 16px;
     border-radius: 8px;
-    margin-top: 14px;
+    margin-top: 16px;
     color: #333;
     text-align: left;
     white-space: pre-wrap;
     font-size: 16px;
-    box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.06);
   }
   .copy-btn {
-    padding: 10px 20px !important;
-    background: #ff6600 !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 6px !important;
-    cursor: pointer !important;
-    margin-top: 14px !important;
-    font-size: 15px !important;
-    font-weight: bold !important;
-    transition: background 0.3s ease !important;
+    padding: 10px 20px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s ease;
   }
   .copy-btn:hover {
-    background: #e65c00 !important;
+    background: #218838;
   }
 </style>
 </head>
@@ -128,9 +126,10 @@
   <div id="guide-content">
     <h3>kazuX の使い方：</h3>
     <ol>
-      <li>「本日のキーワード」として、自動で3つが表示されます。</li>
-      <li>各キーワードの「投稿文を表示」ボタンを押してください。</li>
-      <li>表示された投稿文はコピーして活用できます。</li>
+      <li>「本日のキーワード」として自動で3つが表示されます。</li>
+      <li>各キーワードボックスから「投稿文を表示」をクリックしてください。</li>
+      <li>テンプレートが出てきます。</li>
+      <li>「コピーする」ボタンで投稿文をコピーできます！</li>
     </ol>
   </div>
 </div>
@@ -145,7 +144,7 @@
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(`HTTP Error! status: ${res.status}`);
       const data = await res.json();
-      const pickedItems = data.sort(() => 0.5 - Math.random()).slice(0, 3);
+      const pickedItems = data.sort(() => 0.5 - Math.random()).slice(0, 3); 
       displayKeywords(pickedItems);
     } catch (e) {
       document.getElementById('keywords').textContent = '読み込みに失敗しました。';
