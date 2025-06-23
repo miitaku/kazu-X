@@ -1,147 +1,135 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <title>kazuX | 本日のキーワード</title>
+  <meta charset="UTF-8">
+  <title>kazuX</title>
   <style>
     body {
       font-family: Arial, sans-serif;
+      margin: 30px;
       background-color: #f5f5f5;
       color: #333;
-      padding: 40px;
-      text-align: center;
     }
     h1 {
-      font-size: 32px;
-      margin-bottom: 20px;
+      text-align: center;
     }
-    #usage-button {
-      padding: 10px 20px;
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-bottom: 10px;
-      font-size: 16px;
+    .usage-btn-container {
+      text-align: center;
+      margin: 20px 0;
     }
-    #usage-button:hover {
-      background-color: #004999;
-    }
-    #usage-text {
+    .usage-text {
+      max-width: 600px;
+      margin: 10px auto;
+      padding: 10px;
       background: #e9f5ff;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 500px;
-      margin: 0 auto;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      border-radius: 5px;
       display: none;
       text-align: left;
-      line-height: 1.8;
     }
     #keywords {
-      margin-top: 40px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+      flex-wrap: wrap;
     }
     .keyword-box {
-      background: white;
+      background: #fff;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       width: 200px;
+      text-align: center;
     }
-    button.show-template {
+    button {
       margin-top: 10px;
       padding: 8px 12px;
-      background: #0066cc;
+      background-color: #0066cc;
       color: white;
       border: none;
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
-    }
-    button.show-template:hover {
-      background: #004999;
     }
     .template-text {
       margin-top: 10px;
       background: #e9f5ff;
       padding: 10px;
-      border-radius: 6px;
-      display: none;
-      text-align: left;
+      border-radius: 5px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
 
-  <!-- 見出し -->
   <h1>kazuX</h1>
 
-  <!-- 使い方ボタン＆説明 -->
-  <button id="usage-button">kazuX の使い方</button>
-  <div id="usage-text">
-    kazuX は毎日のトレンドキーワードに基づいて投稿文を生成するツールです。<br><br>
-    1. トレンドキーワードが自動で選出されます。<br>
-    2. ボタンをクリックするとキーワードに紐づく投稿文テンプレートが表示されます。<br>
-    3. 投稿文をコピーして、X や SNS に活用できます。
+  <!-- 使い方ボタン -->
+  <div class="usage-btn-container">
+    <button id="usageBtn">kazuX の使い方</button>
+    <div class="usage-text" id="usageText">
+      kazuXは毎日のトレンドキーワードに基づいて投稿文を生成するツールです。
+      <ol>
+        <li>トレンドキーワードが自動で選出されます。</li>
+        <li>ボタンをクリックするとキーワードに紐づく投稿文テンプレートが表示されます。</li>
+        <li>投稿文をコピーして、XやSNSに活用できます。</li>
+      </ol>
+    </div>
   </div>
 
-  <!-- キーワードリスト（APIから動的に生成） -->
-  <div id="keywords"></div>
+  <div id="keywords">読み込み中...</div>
 
   <script>
-    const usageButton = document.getElementById('usage-button');
-    const usageText = document.getElementById('usage-text');
+    const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
 
-    usageButton.addEventListener('click', () => {
+    // 「使い方」のボタンクリックイベント
+    document.getElementById('usageBtn').addEventListener('click', () => {
+      const usageText = document.getElementById('usageText');
       usageText.style.display = usageText.style.display === 'block' ? 'none' : 'block';
     });
 
-    const API_URL = 'https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec';
-
     async function fetchKeywords() {
-      const res = await fetch(API_URL);
-      const data = await res.json();
-      displayKeywords(data.keywords || []);
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+
+        const keywords = data.map(item => item.キーワード);
+        const pickedKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3); // 3件だけ
+        displayKeywords(pickedKeywords, data);
+      } catch (e) {
+        document.getElementById('keywords').textContent = "読み込み失敗しました";
+        console.error(e);
+      }
     }
 
-    function displayKeywords(keywords) {
+    function displayKeywords(pickedKeywords, fullData) {
       const container = document.getElementById('keywords');
       container.innerHTML = '';
-
-      keywords.forEach(keywordData => {
-        const div = document.createElement('div');
-        div.className = 'keyword-box';
-
-        const title = document.createElement('h3');
-        title.textContent = keywordData.keyword;
-        div.appendChild(title);
+      pickedKeywords.forEach(keyword => {
+        const box = document.createElement('div');
+        box.className = 'keyword-box';
+        box.innerHTML = `<h3>${keyword}</h3>`;
 
         const btn = document.createElement('button');
         btn.textContent = '投稿文を表示';
-        btn.classList.add('show-template');
-        div.appendChild(btn);
-
-        const template = document.createElement('div');
-        template.className = 'template-text';
-        div.appendChild(template);
-
         btn.onclick = () => {
-          const texts = keywordData.templates || [];
-          const randomText = texts[Math.floor(Math.random() * texts.length)];
-          template.innerHTML = randomText || keywordData.keyword + ' に関する投稿文は準備中です。';
-          template.style.display = 'block';
-        };
+          const matched = fullData.filter(item => item.キーワード === keyword);
+          if (matched.length === 0) return;
 
-        container.appendChild(div);
+          const randomPost = matched[Math.floor(Math.random() * matched.length)].投稿文;
+
+          let template = box.querySelector('.template-text');
+          if (!template) {
+            template = document.createElement('div');
+            template.className = 'template-text';
+            box.appendChild(template);
+          }
+          template.textContent = randomPost;
+        };
+        box.appendChild(btn);
+        container.appendChild(box);
       });
     }
 
     fetchKeywords();
   </script>
-
 </body>
 </html>
