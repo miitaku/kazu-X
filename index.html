@@ -143,19 +143,35 @@
 
       const btn = document.createElement('button');
       btn.textContent = '投稿文を表示';
-      btn.onclick = () => {
-        let template = box.querySelector('.template-text');
-        if (!template) {
-          template = document.createElement('div');
-          template.className = 'template-text';
-          box.appendChild(template);
-        }
-        template.textContent = item.投稿文;
-      };
-      box.appendChild(btn);
-      container.appendChild(box);
-    });
+     btn.onclick = () => {
+  let template = box.querySelector('.template-text');
+  if (!template) {
+    template = document.createElement('div');
+    template.className = 'template-text';
+    box.appendChild(template);
   }
+  template.textContent = item.投稿文;
+
+  // ▼ コピーするボタンを追加
+  let copyButton = box.querySelector('.copy-btn');
+  if (!copyButton) {
+    copyButton = document.createElement('button');
+    copyButton.textContent = 'コピーする';
+    copyButton.className = 'copy-btn';
+    box.appendChild(copyButton);
+
+    // ▼ コピーする動作
+    copyButton.onclick = async () => {
+      try {
+        await navigator.clipboard.writeText(item.投稿文);
+        copyButton.textContent = 'コピーしました！';
+        setTimeout(() => copyButton.textContent = 'コピーする', 2000); // 2秒後に戻す
+      } catch (e) {
+        alert('コピーに失敗しました');
+      }
+    };
+  }
+};
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggleGuideBtn = document.getElementById('toggle-guide-btn');
