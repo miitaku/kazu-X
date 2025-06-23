@@ -19,8 +19,8 @@
   }
   header h1 {
     font-size: 48px;
-    margin: 0;
     letter-spacing: 2px;
+    margin: 0;
   }
   #usage-guide {
     text-align: center;
@@ -49,10 +49,11 @@
     display: none;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
+  /* ▼ここが修正箇所：縦に並べる */
   #keywords {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;  /* 縦方向に */
+    align-items: center;     /* 中央に揃える */
     gap: 20px;
     padding: 20px;
   }
