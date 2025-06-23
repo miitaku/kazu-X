@@ -2,103 +2,70 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>kazu-X | 本日のキーワード</title>
+  <title>kazuX | 本日のキーワード</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 30px;
       background-color: #f5f5f5;
-      color: #333;
+      text-align: center;
+      padding: 40px;
     }
     h1 {
-      text-align: center;
+      font-size: 28px;
+      margin-bottom: 10px;
     }
-    #keywords {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
+    #usage-section {
+      margin-bottom: 20px;
     }
-    .keyword-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 200px;
-      text-align: center;
-    }
-    button {
-      margin-top: 10px;
-      padding: 8px 12px;
+    #usage-button {
+      padding: 8px 16px;
       background-color: #0066cc;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-bottom: 10px;
     }
-    .template-text {
-      margin-top: 10px;
+    #usage-button:hover {
+      background-color: #004999;
+    }
+    #usage-text {
       background: #e9f5ff;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 500px;
+      margin: 0 auto;
+      display: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <h1>kazu-X | 本日のキーワード</h1>
-  <div id="keywords">読み込み中...</div>
+  <h1>kazuX</h1>
+  
+  <!-- 使い方ボタンと説明部分 -->
+  <div id="usage-section">
+    <button id="usage-button">kazuX の使い方</button>
+    <div id="usage-text">
+      kazuX は毎日のトレンドキーワードに基づいて投稿文を生成するツールです。<br>
+      1. トレンドキーワードが自動で選出されます。<br>
+      2. ボタンをクリックするとキーワードに紐づく投稿文テンプレートが表示されます。<br>
+      3. 投稿文をコピーして、X や SNS に活用できます。
+    </div>
+  </div>
+
+  <!-- この下にキーワード表示などの既存要素が続きます -->
+  <div id="keywords"></div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
+    const usageButton = document.getElementById('usage-button');
+    const usageText = document.getElementById('usage-text');
 
-    async function fetchKeywords() {
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
+    usageButton.addEventListener('click', () => {
+      usageText.style.display = usageText.style.display === 'none' || usageText.style.display === '' ? 'block' : 'none';
+    });
 
-        // キーワードだけ取り出してシャッフル
-        const keywords = data.map(item => item.キーワード);
-        const pickedKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3); // 3件だけ
-
-        displayKeywords(pickedKeywords, data);
-      } catch (e) {
-        document.getElementById('keywords').textContent = "読み込み失敗しました";
-        console.error(e);
-      }
-    }
-
-    function displayKeywords(pickedKeywords, fullData) {
-      const container = document.getElementById('keywords');
-      container.innerHTML = '';
-      pickedKeywords.forEach(keyword => {
-        const box = document.createElement('div');
-        box.className = 'keyword-box';
-        box.innerHTML = `<h3>${keyword}</h3>`;
-
-        const btn = document.createElement('button');
-        btn.textContent = '投稿文を表示';
-        btn.onclick = () => {
-          // 該当する投稿文リストから1つ選ぶ
-          const matched = fullData.filter(item => item.キーワード === keyword);
-          if (matched.length === 0) return;
-
-          const randomPost = matched[Math.floor(Math.random() * matched.length)].投稿文;
-
-          let template = box.querySelector('.template-text');
-          if (!template) {
-            template = document.createElement('div');
-            template.className = 'template-text';
-            box.appendChild(template);
-          }
-          template.textContent = randomPost;
-        };
-        box.appendChild(btn);
-        container.appendChild(box);
-      });
-    }
-
-    fetchKeywords();
+    // ここにキーワードや投稿文テンプレートをロードする既存コードが入る
   </script>
 </body>
 </html>
