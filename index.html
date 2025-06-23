@@ -24,7 +24,7 @@
   }
   #usage-guide {
     text-align: center;
-    padding: 20px;
+    padding: 30px;
   }
   #toggle-guide-btn {
     padding: 12px 24px;
@@ -60,8 +60,7 @@
     background: white;
     padding: 20px;
     border-radius: 12px;
-    width: 90%;
-    max-width: 320px;
+    width: 300px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     text-align: center;
     transition: transform 0.2s ease;
@@ -70,9 +69,9 @@
     transform: scale(1.03);
   }
   .keyword-box h3 {
-    font-size: 24px;
     color: #007aff;
     margin: 0 0 10px;
+    font-size: 20px;
   }
   .keyword-box button {
     padding: 10px 18px;
@@ -97,29 +96,19 @@
     white-space: pre-wrap;
   }
   .copy-btn {
-    padding: 10px 18px;
-    background: #ff6600;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 10px;
-    font-weight: bold;
+    padding: 10px 18px !important;
+    background: #ff6600 !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    cursor: pointer !important;
+    margin-top: 10px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    transition: background 0.3s ease !important;
   }
   .copy-btn:hover {
-    background: #e65c00;
-  }
-  /* スマホ用調整 */
-  @media screen and (max-width: 480px) {
-    header h1 {
-      font-size: 32px;
-    }
-    .keyword-box h3 {
-      font-size: 20px;
-    }
-    .keyword-box button, .copy-btn {
-      font-size: 14px;
-    }
+    background: #e65c00 !important;
   }
 </style>
 </head>
@@ -135,9 +124,9 @@
     <h3>kazuX の使い方：</h3>
     <ol>
       <li>「本日のキーワード」として、自動で3つのキーワードが表示されます。</li>
-      <li>それぞれのキーワードの「投稿文を表示」ボタンをクリックしてください。</li>
-      <li>そのキーワードに合った投稿用テンプレートが表示されます。</li>
-      <li>表示された投稿文を「コピーする」ボタンからコピーして、SNS投稿に活用できます！</li>
+      <li>各キーワードの「投稿文を表示」ボタンを押してください。</li>
+      <li>投稿用テンプレートが表示されます。</li>
+      <li>「コピーする」ボタンで投稿文をコピーできます。</li>
     </ol>
   </div>
 </div>
@@ -152,7 +141,7 @@
       const res = await fetch(API_URL);
       if (!res.ok) throw new Error(`HTTP Error! status: ${res.status}`);
       const data = await res.json();
-      const pickedItems = data.sort(() => 0.5 - Math.random()).slice(0, 3); 
+      const pickedItems = data.sort(() => 0.5 - Math.random()).slice(0, 3);
       displayKeywords(pickedItems);
     } catch (e) {
       document.getElementById('keywords').textContent = '読み込みに失敗しました。';
