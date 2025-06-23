@@ -49,11 +49,10 @@
     display: none;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
   }
-  /* ▼ここが修正箇所：縦に並べる */
   #keywords {
     display: flex;
     flex-direction: column;  /* 縦方向に */
-    align-items: center;     /* 中央に揃える */
+    align-items: center;     /* 中央に揃え */
     gap: 20px;
     padding: 20px;
   }
@@ -81,6 +80,7 @@
     border-radius: 6px;
     cursor: pointer;
     margin-top: 10px;
+    font-size: 14px;
   }
   .keyword-box button:hover {
     background: #005bb5;
@@ -93,6 +93,18 @@
     color: #333;
     text-align: left;
     white-space: pre-wrap;
+  }
+  .copy-btn {
+    padding: 8px 16px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  .copy-btn:hover {
+    background: #218838;
   }
 </style>
 </head>
@@ -109,8 +121,8 @@
     <ol>
       <li>「本日のキーワード」として、自動で3つのキーワードが表示されます。</li>
       <li>それぞれのキーワードの「投稿文を表示」ボタンをクリックしてください。</li>
-      <li>そのキーワードに合ったX（Twitter）投稿用テンプレートが表示されます。</li>
-      <li>表示された投稿文をコピーして、SNS投稿にご活用ください！</li>
+      <li>そのキーワードに合った投稿用テンプレートが表示されます。</li>
+      <li>表示された投稿文をコピーして、SNS投稿に活用できます！</li>
     </ol>
   </div>
 </div>
@@ -143,35 +155,37 @@
 
       const btn = document.createElement('button');
       btn.textContent = '投稿文を表示';
-     btn.onclick = () => {
-  let template = box.querySelector('.template-text');
-  if (!template) {
-    template = document.createElement('div');
-    template.className = 'template-text';
-    box.appendChild(template);
-  }
-  template.textContent = item.投稿文;
+      btn.onclick = () => {
+        let template = box.querySelector('.template-text');
+        if (!template) {
+          template = document.createElement('div');
+          template.className = 'template-text';
+          box.appendChild(template);
+        }
+        template.textContent = item.投稿文;
 
-  // ▼ コピーするボタンを追加
-  let copyButton = box.querySelector('.copy-btn');
-  if (!copyButton) {
-    copyButton = document.createElement('button');
-    copyButton.textContent = 'コピーする';
-    copyButton.className = 'copy-btn';
-    box.appendChild(copyButton);
+        let copyButton = box.querySelector('.copy-btn');
+        if (!copyButton) {
+          copyButton = document.createElement('button');
+          copyButton.textContent = 'コピーする';
+          copyButton.className = 'copy-btn';
+          box.appendChild(copyButton);
 
-    // ▼ コピーする動作
-    copyButton.onclick = async () => {
-      try {
-        await navigator.clipboard.writeText(item.投稿文);
-        copyButton.textContent = 'コピーしました！';
-        setTimeout(() => copyButton.textContent = 'コピーする', 2000); // 2秒後に戻す
-      } catch (e) {
-        alert('コピーに失敗しました');
-      }
-    };
+          copyButton.onclick = async () => {
+            try {
+              await navigator.clipboard.writeText(item.投稿文);
+              copyButton.textContent = 'コピーしました！';
+              setTimeout(() => copyButton.textContent = 'コピーする', 2000);
+            } catch (e) {
+              alert('コピーに失敗しました');
+            }
+          };
+        }
+      };
+      box.appendChild(btn);
+      container.appendChild(box);
+    });
   }
-};
 
   document.addEventListener('DOMContentLoaded', () => {
     const toggleGuideBtn = document.getElementById('toggle-guide-btn');
