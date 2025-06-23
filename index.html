@@ -1,183 +1,183 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>kazuX | 本日のキーワード</title>   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-      background-color: #f5f5f5;
-      color: #333;
-      line-height: 1.6; /* 行の高さ調整 */
-    }
-    h1 {
-      text-align: center;
-      color: #0066cc; /* h1の色をボタンの色と合わせる */
-      margin-bottom: 20px; /* 下の余白を調整 */
-    }
-    #usage-guide { /* 使い方ガイドのコンテナ */
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    #show-guide-btn { /* 使い方ボタンのスタイル */
-      padding: 10px 20px;
-      background-color: #0066cc;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      margin-top: 10px;
-      transition: background-color 0.3s ease;
-    }
-    #show-guide-btn:hover {
-      background-color: #0056b3;
-    }
-    .guide-text { /* 説明文のスタイル */
-      background: #e9f5ff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-top: 20px;
-      text-align: left;
-      display: none; /* 初期状態では非表示 */
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      max-width: 600px; /* 説明文の最大幅を設定 */
-      margin-left: auto; /* 中央寄せ */
-      margin-right: auto; /* 中央寄せ */
-    }
-    #keywords {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .keyword-box {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 200px;
-      text-align: center;
-      box-sizing: border-box; /* paddingをwidthに含める */
-      display: flex; /* Flexboxで内容を縦に配置 */
-      flex-direction: column;
-      justify-content: space-between; /* 内容を上下に均等配置 */
-    }
-    .keyword-box h3 {
-      margin-top: 0;
-      margin-bottom: 15px; /* キーワードとボタンの間に少しスペース */
-      color: #0066cc; /* キーワードの色を強調 */
-    }
-    .keyword-box button { /* キーワードボックス内のボタン */
-      width: auto; /* 幅を自動調整 */
-      margin-top: 15px; /* 上の余白 */
-      align-self: center; /* 中央揃え */
-    }
-    .template-text {
-      margin-top: 15px; /* 上の余白を少し増やす */
-      background: #e9f5ff;
-      padding: 10px;
-      border-radius: 5px;
-      font-size: 14px;
-      text-align: left;
-      white-space: pre-wrap; /* 改行を保持 */
-      word-break: break-word; /* 長い単語で改行 */
-    }
-  </style>
+<meta charset="UTF-8">
+<title>kazuX | 本日のキーワード</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: linear-gradient(135deg, #007aff, #00c3ff);
+    padding: 40px 0;
+    text-align: center;
+    color: white;
+  }
+  header h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin: 0;
+    letter-spacing: 2px;
+  }
+  #usage-guide {
+    text-align: center;
+    padding: 20px;
+  }
+  #show-guide-btn {
+    padding: 12px 24px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+  }
+  #show-guide-btn:hover {
+    background: #005bb5;
+  }
+  #guide-content {
+    background: #e9f5ff;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px auto;
+    max-width: 600px;
+    text-align: left;
+    display: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  #keywords {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
+  .keyword-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 250px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.2s ease;
+  }
+  .keyword-box:hover {
+    transform: scale(1.03);
+  }
+  .keyword-box h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #007aff;
+  }
+  .keyword-box button {
+    padding: 10px 18px;
+    background: #007aff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .keyword-box button:hover {
+    background: #005bb5;
+  }
+  .template-text {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-top: 10px;
+    color: #333;
+    text-align: left;
+    white-space: pre-wrap;
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.08);
+  }
+</style>
 </head>
 <body>
-  <h1>kazuX</h1>   <div id="usage-guide">
-    <p>kazuXの使用方法を説明します。</p>
-    <button id="show-guide-btn">使い方を見る</button>     <div id="guide-content" class="guide-text">
-      <h3>kazuXの使い方：</h3>
-      <ol>
-        <li>「本日のキーワード」として、自動で3つのキーワードが表示されます。</li>
-        <li>それぞれのキーワードの「投稿文を表示」ボタンを押してください。</li>
-        <li>すると、そのキーワードに合ったX（Twitter）の投稿テンプレートが表示されます。</li>
-        <li>表示された投稿文をコピーして、ご自身のX（Twitter）投稿にご活用ください！</li>
-      </ol>
-    </div>
-  </div>
 
-  <div id="keywords">読み込み中...</div>
+<header>
+  <h1>kazuX</h1>
+</header>
 
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
+<div id="usage-guide">
+  <button id="show-guide-btn">kazuX の使い方</button>
+  <div id="guide-content">
+    <h3>kazuX の使い方：</h3>
+    <ol>
+      <li>自動で3つのトレンドキーワードが表示されます。</li>
+      <li>ボタンをクリックすると、選んだキーワードに合った投稿文が出てきます。</li>
+      <li>そのままコピー＆ペーストして、X（Twitter）やSNSに使えます！</li>
+    </ol>
+  </div>
+</div>
 
-    async function fetchKeywords() {
-      try {
-        const res = await fetch(API_URL);
-        // レスポンスがJSONとして有効か確認
-        if (!res.ok) {
-          const errorText = await res.text();
-          throw new Error(`HTTP error! status: ${res.status}, response: ${errorText}`);
-        }
-        const data = await res.json();
+<div id="keywords">読み込み中...</div>
 
-        // データ構造を確認し、必要に応じて調整
-        if (!Array.isArray(data) || data.length === 0 || !data[0].hasOwnProperty('キーワード')) {
-          throw new Error("APIレスポンスの形式が不正です。'キーワード'プロパティが見つかりません。");
-        }
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
 
-        // キーワードだけ取り出してシャッフル
-        const keywords = data.map(item => item.キーワード);
-        // 実際にはキーワードとその投稿文のペアを維持してシャッフルしたい場合、オブジェクト配列をシャッフル
-        const shuffledData = data.sort(() => 0.5 - Math.random());
-        const pickedItems = shuffledData.slice(0, 3); // 3件だけ選ぶ
+  async function fetchKeywords() {
+    try {
+      const res = await fetch(API_URL);
+      if (!res.ok) throw new Error(`HTTP Error ${res.status}`);
+      const data = await res.json();
+      const shuffledData = data.sort(() => 0.5 - Math.random());
+      const pickedItems = shuffledData.slice(0, 3); // 3件だけ
+      displayKeywords(pickedItems);
+    } catch (e) {
+      const container = document.getElementById('keywords');
+      container.innerHTML = '<p style="color: red;">読み込みに失敗しました。</p>';
+      console.error(e);
+    }
+  }
 
-        displayKeywords(pickedItems); // 修正: pickedKeywordsではなくpickedItemsを渡す
-      } catch (e) {
-        const keywordsContainer = document.getElementById('keywords');
-        keywordsContainer.innerHTML = `<p style="color: red;">キーワードの読み込みに失敗しました。<br>エラー: ${e.message}</p>`;
-        console.error("Error fetching keywords:", e);
-      }
-    }
+  function displayKeywords(pickedItems) {
+    const container = document.getElementById('keywords');
+    container.innerHTML = '';
+    pickedItems.forEach(item => {
+      const box = document.createElement('div');
+      box.className = 'keyword-box';
+      box.innerHTML = `<h3>${item.キーワード}</h3>`;
 
-    // 修正: fullDataを引数から削除し、pickedItemsから直接投稿文を取得
-    function displayKeywords(pickedItems) {
-      const container = document.getElementById('keywords');
-      container.innerHTML = '';
-      pickedItems.forEach(item => { // pickedItemsをループ
-        const box = document.createElement('div');
-        box.className = 'keyword-box';
-        box.innerHTML = `<h3>${item.キーワード}</h3>`; // item.キーワードを使用
+      const btn = document.createElement('button');
+      btn.textContent = '投稿文を表示';
+      btn.onclick = () => {
+        let template = box.querySelector('.template-text');
+        if (!template) {
+          template = document.createElement('div');
+          template.className = 'template-text';
+          box.appendChild(template);
+        }
+        template.textContent = item.投稿文;
+      };
+      box.appendChild(btn);
+      container.appendChild(box);
+    });
+  }
 
-        const btn = document.createElement('button');
-        btn.textContent = '投稿文を表示';
-        btn.onclick = () => {
-          // 投稿文を直接取得（ランダム選択は不要になる）
-          const postText = item.投稿文; // item.投稿文を使用
+  document.addEventListener('DOMContentLoaded', () => {
+    const showGuideBtn = document.getElementById('show-guide-btn');
+    const guideContent = document.getElementById('guide-content');
 
-          let template = box.querySelector('.template-text');
-          if (!template) {
-            template = document.createElement('div');
-            template.className = 'template-text';
-            box.appendChild(template);
-          }
-          template.textContent = postText; // 投稿文を表示
-        };
-        box.appendChild(btn);
-        container.appendChild(box);
-      });
-    }
+    showGuideBtn.addEventListener('click', () => {
+      if (guideContent.style.display === 'none' || guideContent.style.display === '') {
+        guideContent.style.display = 'block';
+        showGuideBtn.textContent = '使い方を隠す';
+      } else {
+        guideContent.style.display = 'none';
+        showGuideBtn.textContent = 'kazuX の使い方';
+      }
+    });
 
-    // 使い方ガイドボタンの機能
-    document.addEventListener('DOMContentLoaded', () => {
-      const showGuideBtn = document.getElementById('show-guide-btn');
-      const guideContent = document.getElementById('guide-content');
+    fetchKeywords();
+  });
+</script>
 
-      showGuideBtn.addEventListener('click', () => {
-        if (guideContent.style.display === 'none' || guideContent.style.display === '') {
-          guideContent.style.display = 'block';
-          showGuideBtn.textContent = '使い方を隠す';
-        } else {
-          guideContent.style.display = 'none';
-          showGuideBtn.textContent = '使い方を見る';
-        }
-      });
-
-      fetchKeywords(); // キーワードの取得を開始
-    });
-  </script>
 </body>
 </html>
