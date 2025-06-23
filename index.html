@@ -1,8 +1,12 @@
+kazuX
+
+ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>kazuX</title>
+  <title>kazu-X | 本日のキーワード</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -12,19 +16,6 @@
     }
     h1 {
       text-align: center;
-    }
-    .usage-btn-container {
-      text-align: center;
-      margin: 20px 0;
-    }
-    .usage-text {
-      max-width: 600px;
-      margin: 10px auto;
-      padding: 10px;
-      background: #e9f5ff;
-      border-radius: 5px;
-      display: none;
-      text-align: left;
     }
     #keywords {
       display: flex;
@@ -59,40 +50,21 @@
   </style>
 </head>
 <body>
-
-  <h1>kazuX</h1>
-
-  <!-- 使い方ボタン -->
-  <div class="usage-btn-container">
-    <button id="usageBtn">kazuX の使い方</button>
-    <div class="usage-text" id="usageText">
-      kazuXは毎日のトレンドキーワードに基づいて投稿文を生成するツールです。
-      <ol>
-        <li>トレンドキーワードが自動で選出されます。</li>
-        <li>ボタンをクリックするとキーワードに紐づく投稿文テンプレートが表示されます。</li>
-        <li>投稿文をコピーして、XやSNSに活用できます。</li>
-      </ol>
-    </div>
-  </div>
-
+  <h1>kazu-X | 本日のキーワード</h1>
   <div id="keywords">読み込み中...</div>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbycbmJsL0mSF6RexvF5pz01kWTiNWwQCuyStj8ptGUO5TSoPN8_ebT3TyHFVB_vI0Sm/exec";
-
-    // 「使い方」のボタンクリックイベント
-    document.getElementById('usageBtn').addEventListener('click', () => {
-      const usageText = document.getElementById('usageText');
-      usageText.style.display = usageText.style.display === 'block' ? 'none' : 'block';
-    });
 
     async function fetchKeywords() {
       try {
         const res = await fetch(API_URL);
         const data = await res.json();
 
+        // キーワードだけ取り出してシャッフル
         const keywords = data.map(item => item.キーワード);
         const pickedKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3); // 3件だけ
+
         displayKeywords(pickedKeywords, data);
       } catch (e) {
         document.getElementById('keywords').textContent = "読み込み失敗しました";
@@ -111,6 +83,7 @@
         const btn = document.createElement('button');
         btn.textContent = '投稿文を表示';
         btn.onclick = () => {
+          // 該当する投稿文リストから1つ選ぶ
           const matched = fullData.filter(item => item.キーワード === keyword);
           if (matched.length === 0) return;
 
